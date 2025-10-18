@@ -24,7 +24,7 @@ def create_user():
     assert response.status_code == 200
     assert response.json()["success"] is True
 
-    yield email, password, user_name
+    yield email, password, user_name, response
 
     headers = {"Authorization":access_token}
     response_del = requests.delete(DELETE_USER, headers=headers)
@@ -34,7 +34,7 @@ def create_user():
 
 @pytest.fixture
 def login(create_user):
-    email, password, user_name = create_user
+    email, password, user_name, response = create_user
     payload = {
         "email": email,
         "password": password
